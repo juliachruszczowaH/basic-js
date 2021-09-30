@@ -16,19 +16,34 @@ import { NotImplementedError } from '../extensions/index.js';
 export default function transform(arr) {
   // throw new NotImplementedError('Not implemented');
   // remove line with error and write your code here
-  if(!Array.isArray(arr)){
-    throw new Error(`'arr' parameter must be an instance of the Array`)
+  if (!Array.isArray(arr)) {
+    throw new Error(`'arr' parameter must be an instance of the Array`);
+  }
+  let result = [];
+  arr.forEach((item, index, array) => {
+    switch (item) {
+      case '--double-prev': {
+        result.push(array[index - 1] * 2);
+        break;
+      }
+      case '--discard-prev': {
+        result.pop();
+        break;
+      }
+      case '--double-next': {
+        result.push(array[index + 1] * 2);
+        break;
+        index=index+2;
+      }
+      case '--discard-next': {
+        index=index+2;
+        break;
+      }
+      default:
+        result.push(item);
+        break;
+    }
+  });
 
-  }
-  const fun = arr.find((i) => typeof i === 'string');
-  const arr1 = arr.slice(0, arr.indexOf(fun));
-  const arr2 = arr.slice(arr.indexOf(fun) + 1);
-  if (fun === '--discard-prev') {
-    arr1.pop();
-  }
-  if (fun === '--discard-next') {
-    arr2.unshift();
-    
-  }
-  return fun ? arr1.concat(arr2) : arr
+  return result;
 }
