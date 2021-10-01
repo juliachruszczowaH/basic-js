@@ -23,7 +23,28 @@ import { NotImplementedError } from '../extensions/index.js';
  *  [1, 1, 1]
  * ]
  */
-export default function minesweeper (/* matrix */) {
-  throw new NotImplementedError('Not implemented');
+export default function minesweeper(matrix) {
+  // throw new NotImplementedError('Not implemented');
   // remove line with error and write your code here
+  let res_arr = JSON.parse(JSON.stringify(matrix)).map((i) => i.fill(0));
+  matrix.forEach((row, r_index) => {
+    row.forEach((elem, index) => {
+      if (elem) {
+        if (matrix[r_index - 1]) {
+          res_arr[r_index - 1][index] += 1;
+          res_arr[r_index - 1][index + 1] += 1;
+          res_arr[r_index - 1][index - 1] += 1;
+        }
+
+        if (matrix[r_index + 1]) {
+          res_arr[r_index + 1][index] += 1;
+          res_arr[r_index + 1][index + 1] += 1;
+          res_arr[r_index + 1][index - 1] += 1;
+        }
+        res_arr[r_index][index - 1] += 1;
+        res_arr[r_index][index + 1] += 1;
+      }
+    });
+  });
+  return res_arr;
 }
